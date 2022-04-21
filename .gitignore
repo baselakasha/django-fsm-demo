@@ -1,0 +1,15 @@
+venv
+code/web/static/admin/
+code/web/static/baton/
+code/web/static/CACHE/
+code/web/static/rest_framework/
+db.sqlite3
+db.sqlite3-journal
+
+__pycache__/
+*.pyc
+*.pyo
+
+.env.dev
+.env.prod
+.env.prod.db

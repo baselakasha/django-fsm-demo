@@ -1,0 +1,48 @@
+version: '3.8'
+
+services:
+  code:
+    container_name: ${PROJECT_NAME}-code-prod
+    command: sh -c "python ./web/manage.py makemigrations &&
+                    python ./web/manage.py migrate &&
+                    python ./web/manage.py ensure_superuser &&
+                    python ./web/manage.py collectstatic  --noinput &&
+                    cd ./web/ && gunicorn project.wsgi:application --bind 0.0.0.0:8000"
+    build:
+      context: ./code
+      dockerfile: Dockerfile.prod
+    volumes:
+      - static_volume:/home/app/code/web/static
+      - media_volume:/home/app/code/web/media
+      - wheels_volume:/usr/src/app/wheels
+      - ./code:/home/app/code 
+
+    env_file:
+      - ./.env.prod
+    depends_on:
+      - db
+  
+  db:
+    container_name: ${PROJECT_NAME}-db-prod
+    image: postgres:13.0-alpine
+    volumes:
+      - postgres_data:/var/lib/postgresql/data/
+    env_file:
+      - ./.env.prod.db
+
+  nginx:
+    container_name: ${PROJECT_NAME}-nginx-prod
+    build: ./nginx
+    volumes:
+      - static_volume:/etc/static
+      - media_volume:/etc/media
+    ports:
+      - ${PORT}:80
+    depends_on:
+      - code
+
+volumes:
+  postgres_data:
+  wheels_volume:
+  static_volume:
+  media_volume:

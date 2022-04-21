@@ -1,0 +1,19 @@
+{
+    "version": "2.0.0",
+    "tasks": [
+        {
+            "label": "Lint all python files",
+            "type": "shell",
+            "command": "${config:python.defaultInterpreterPath}",
+            "args": [
+                "-m",
+                "pylint",
+                "--load-plugins=pylint_django",
+                "--rcfile=.pylintrc",
+                "--django-settings-module=project.settings",
+                "app"
+            ],
+            "problemMatcher": []
+        }
+    ]
+}

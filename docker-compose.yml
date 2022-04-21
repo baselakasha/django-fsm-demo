@@ -1,0 +1,38 @@
+version: '3.8'
+
+services:
+  code:
+    container_name: ${PROJECT_NAME}-code-dev
+    command: sh -c "python ./web/manage.py makemigrations &&
+                    python ./web/manage.py migrate &&
+                    python ./web/manage.py ensure_superuser &&
+                    python ./web/manage.py collectstatic  --noinput &&
+                    cd ./web/ && python manage.py runserver 0.0.0.0:8000"
+    build:
+      context: ./code
+      dockerfile: Dockerfile
+    volumes:
+      - ./code:/usr/src/app/
+    ports:
+      - 8000:8000
+      - 5678:5678
+    env_file:
+      - ./.env.dev
+
+  mailhog:
+    image: mailhog/mailhog
+    container_name: ${PROJECT_NAME}-mailhog-dev
+    ports:
+      - "1025:1025"
+      - "8025:8025"
+    volumes:
+      - mailhog:/var/lib/mailhog
+    environment:
+      - MAILHOG_SMTP_PORT=1025
+      - MAILHOG_SMTP_AUTHENTICATION_DISABLED=true
+      - MAILHOG_SMTP_DISABLED=true
+      - MAILHOG_HTTP_PORT=8025
+      - MAILHOG_HTTP_BIND_ADDRESS=
+
+volumes:
+  mailhog:

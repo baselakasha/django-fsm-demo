@@ -1,0 +1,26 @@
+{% extends 'base.html' %}
+
+{% block title %}
+    Posts that need intervention
+{% endblock %}
+    
+{% block content %}
+    <h1 class="h1 mt-5">Posts that need approval</h1>
+    <div class="mt-4">
+        {% for post in object_list %}
+            <div class="border p-4 rounded bg-light mb-2">
+                <h2 class="h2">{{ post.title }}</h2> 
+                <div class="block">
+                    Status: {{ post.state.title }}
+                </div>
+                <a href="{% url 'view_post' post.pk %}" class="btn btn-primary mt-2">
+                    Read more
+                </a>
+            </div>
+        {% empty %}
+            <div class="alert alert-info">
+                There is no posts that need approval.
+            </div>
+        {% endfor %}
+    </div>
+{% endblock %}

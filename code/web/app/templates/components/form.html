@@ -1,0 +1,31 @@
+<!-- Errors -->
+{% if form.errors %}
+{% for field in form %}
+    {% for error in field.errors %}
+        <div class="alert alert-danger">
+            <strong>{{ field.label }} </strong> <span>{{ error|escape }}</strong>
+        </div>
+    {% endfor %}
+{% endfor %}
+{% for error in form.non_field_errors %}
+    <div class="alert alert-danger">
+        <strong>{{ error|escape }}</strong>
+    </div>
+{% endfor %}
+{% endif %}
+
+<!-- Fields -->
+{% for field in form %}
+<div class="form-group mb-3" aria-required={% if field.field.required %}"true"{% else %}"false"{% endif %}>
+    <!-- Label -->
+    <div class="pb-3">{{ field.label_tag }}{% if field.field.required %}<span class="required">*</span>{% endif %}</div>
+
+    <!-- Field -->
+    {{ field }}
+
+    <!-- Help Text -->
+    {% if field.help_text %}
+        <p class="help">{{ field.help_text|safe }}</p>
+    {% endif %}
+</div>
+{% endfor %}

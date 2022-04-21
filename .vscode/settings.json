@@ -1,0 +1,19 @@
+{
+    "python.linting.enabled": false,
+    "python.linting.pylintEnabled": true,
+    "python.linting.pylintArgs": [
+        "--load-plugins",
+        "pylint_django",
+        "--django-settings-module",
+        "project.settings",
+        "--rcfile",
+        ".pylintrc"
+    ],
+    "files.exclude": {
+        "**/.git": true,
+        "**/.svn": true,
+        "**/.hg": true,
+        "**/.DS_Store": true,
+        "**/__pycache__": true,
+    }
+}

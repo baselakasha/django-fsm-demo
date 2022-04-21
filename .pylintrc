@@ -1,0 +1,15 @@
+[MASTER]
+disable=
+    missing-docstring,
+    too-many-public-methods,
+    too-many-instance-attributes,
+    too-many-branches,
+    too-many-statements,
+    no-self-use,
+    missing-function-docstring,
+    missing-final-newline,
+    trailing-whitespace,
+    trailing-newlines
+
+[DESIGN]
+max-parents=15

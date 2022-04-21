@@ -1,0 +1,24 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}
+    Signup
+{% endblock %}
+{% block content %}
+    <h1 class="my-5 pt-5">Signup</h1>
+    <div class="row gap-5">
+        <div class="col col-md-5 row">
+            <form action="/signup/" method="POST" role="form">
+                {% csrf_token %}
+
+                {% include "components/form.html" %}
+
+                <input type="submit" class="btn btn-primary btn-lg mt-4" value="Submit" />
+            </form>
+        </div>
+        <div class="col text-end d-none d-lg-block">
+            <img src="{% static 'images/signup.svg' %}" class="img-fluid col-9" alt="">
+        </div>
+    </div>
+
+{% endblock %}

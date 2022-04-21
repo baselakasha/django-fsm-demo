@@ -1,0 +1,45 @@
+{% extends "base.html" %}
+
+{% block title %}
+    {{ object.title }}
+{% endblock %}
+
+{% block content %}
+<div class="container mt-5">
+    <div class="row">
+        <div class="col">
+            <h1 class="h1 d-inline">
+                {{ object.title }}
+            </h1>
+            {% if user == object.author %}
+                <span class="bg-primary text-white p-1 px-2 rounded">{{ object.state.title }}</span>
+            {% endif %}
+            <div class="d-block">
+                by {{ object.author }}
+            </div>
+        </div>
+        <div class="col text-lg-end">
+            {% if user == object.author %}
+                <a href="{% url 'edit_post' object.pk %}" class="btn btn-primary">Edit</a>
+                {% if object.state == "draft" %}
+                    <a href="/post/submit/{{ object.id }}" class="btn btn-success">Request Approval</a>
+                {% endif %}
+            {% endif %}
+            
+            {% if user.is_superuser and object.state == 'waiting approval' %}
+                <a href="{% url 'approve_post' object.pk %}" class="btn btn-success">Approve</a>
+                <a href="{% url 'disapprove_post' object.pk %}" class="btn btn-danger">Disapprove</a>
+            {% endif %}
+             
+            {% if object.state == "published" %}
+                {% if user.is_superuser or user == object.author %}
+                    <a href="{% url 'unpublish_post' object.pk %}" class="btn btn-danger">Unpublish</a>
+                {% endif %}
+            {% endif %}
+        </div>
+    </div>
+    <article class="border p-4 rounded mt-5">
+        {{ object.content }}
+    </article>
+</div>
+{% endblock %}

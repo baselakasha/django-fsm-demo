@@ -1,0 +1,43 @@
+{% extends 'base.html' %}
+
+{% block title %}
+    Home
+{% endblock %}
+
+{% block content %}
+    <h1 class="text-center mt-5">Home Page</h1>
+
+    {% if user.is_authenticated %}
+        <div class="row gap-5 mt-5 mx-0">
+            <div class="col-4 p-5 text-center rounded border bg-success">
+                <a class="text-white h2 text-decoration-none" href="{% url 'list_own_posts' %}">My Posts</a>
+            </div>
+            {% if user.is_superuser %}
+                <div class="col-4 p-5 text-center rounded border bg-info">
+                    <a class="text-white h2 text-decoration-none" href="{% url 'need_approval_posts' %}">Posts that need approval</a>
+                </div>
+            {% endif %}
+        </div>
+    {% endif %}
+
+    <h2 class="h2 mt-5 mb-3 ms-0 ps-0">Posts</h2>
+    <div class="row gap-5 mx-0">
+        {% for post in posts %}
+            <a class="col-4 py-4 px-5  bg-light text-center rounded border text-decoration-none text-dark" href="{% url 'view_post' post.pk %}">
+                <h3 class="h3">{{ post.title }}</h3>
+
+                <div class="d-block">
+                    by {{ post.author }}
+                </div>
+
+                <span class="btn btn-info mt-3">
+                    Read More
+                </span>
+            </a>
+        {% empty %}
+            <div class="alert alert-info">
+                There is no published posts.
+            </div>
+        {% endfor %}
+    </div>
+{% endblock %}
